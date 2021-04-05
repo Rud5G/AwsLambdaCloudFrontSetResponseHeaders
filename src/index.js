@@ -17,13 +17,43 @@ exports.handler = (event, context, callback) => {
 
     // Set the max-age header, if not set.
     const headerNameMaxAge = 'max-age';
-    // const headerValueMaxAge = '86400';
     const headerValueMaxAge = '3600';
+    // const headerValueMaxAge = '86400';
 
     if (!headers[headerNameMaxAge.toLowerCase()]) {
         headers[headerNameMaxAge.toLowerCase()] = [{
             key: headerNameMaxAge,
             value: headerValueMaxAge,
+        }];
+    }
+
+    const headerNameAccessControlAllowHeaders = 'Access-Control-Allow-Headers';
+    const headerValueAccessControlAllowHeaders = '*';
+
+    if (!headers[headerNameAccessControlAllowHeaders.toLowerCase()]) {
+        headers[headerNameAccessControlAllowHeaders.toLowerCase()] = [{
+            key: headerNameAccessControlAllowHeaders,
+            value: headerValueAccessControlAllowHeaders,
+        }];
+    }
+
+    const headerNameAccessControlAllowMethods = 'Access-Control-Allow-Methods';
+    const headerValueAccessControlAllowMethods = 'POST, GET, OPTIONS';
+
+    if (!headers[headerNameAccessControlAllowMethods.toLowerCase()]) {
+        headers[headerNameAccessControlAllowMethods.toLowerCase()] = [{
+            key: headerNameAccessControlAllowMethods,
+            value: headerValueAccessControlAllowMethods,
+        }];
+    }
+
+    const headerNameAccessControlAllowOrigin = 'Access-Control-Allow-Origin';
+    const headerValueAccessControlAllowOrigin = '*';
+
+    if (!headers[headerNameAccessControlAllowOrigin.toLowerCase()]) {
+        headers[headerNameAccessControlAllowOrigin.toLowerCase()] = [{
+            key: headerNameAccessControlAllowOrigin,
+            value: headerValueAccessControlAllowOrigin,
         }];
     }
 
