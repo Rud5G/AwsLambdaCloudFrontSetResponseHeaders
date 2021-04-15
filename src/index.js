@@ -15,15 +15,39 @@ exports.handler = (event, context, callback) => {
     // headers['content-security-policy'] = [{ key: 'Content-Security-Policy', value: "default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'" }];
     // headers['referrer-policy'] = [{ key: 'Referrer-Policy', value: 'same-origin' }];
 
-    // Set the max-age header, if not set.
-    const headerNameMaxAge = 'max-age';
-    const headerValueMaxAge = '3600';
-    // const headerValueMaxAge = '86400';
+    // Cache-Control directives
+    const cacheControleDirectiveNoCache = 'no-cache';
+    const cacheControleDirectiveNoStore = 'no-store';
+    const cacheControleDirectivePublic = 'public';
+    const cacheControleDirectivePrivate = 'private';
 
-    if (!headers[headerNameMaxAge.toLowerCase()]) {
-        headers[headerNameMaxAge.toLowerCase()] = [{
-            key: headerNameMaxAge,
-            value: headerValueMaxAge,
+    // MaxAge default times
+    const headerNameMaxAge = 'max-age';
+    const headerValueMaxAgeHour = '3600';
+    const headerValueMaxAgeDay = '86400';
+    const headerValueMaxAgeMonth = '2592000';
+    const headerValueMaxAgeYear = '31536000';
+
+    // Set the max-age header, if not set.
+    const headerValueMaxAge = headerValueMaxAgeDay;
+
+    // if (!headers[headerNameMaxAge.toLowerCase()]) {
+    //     headers[headerNameMaxAge.toLowerCase()] = [{
+    //         key: headerNameMaxAge,
+    //         value: headerValueMaxAge,
+    //     }];
+    // }
+
+  // Set the Cache-Control header, if not set.
+  // "max-age=86400, public"
+  const headerNameCacheControl = 'Cache-Control';
+  const headerValueCacheControl = cacheControleDirectivePublic + ', '
+      + 'max-age=' + headerValueMaxAge;
+
+  if (!headers[headerNameCacheControl.toLowerCase()]) {
+        headers[headerNameCacheControl.toLowerCase()] = [{
+            key: headerNameCacheControl,
+            value: headerValueCacheControl,
         }];
     }
 
@@ -39,7 +63,6 @@ exports.handler = (event, context, callback) => {
 
     const headerNameAccessControlAllowMethods = 'Access-Control-Allow-Methods';
     const headerValueAccessControlAllowMethods = 'POST, GET, OPTIONS';
-
     if (!headers[headerNameAccessControlAllowMethods.toLowerCase()]) {
         headers[headerNameAccessControlAllowMethods.toLowerCase()] = [{
             key: headerNameAccessControlAllowMethods,
@@ -60,4 +83,3 @@ exports.handler = (event, context, callback) => {
     // Return modified response
     callback(null, response);
 };
-
